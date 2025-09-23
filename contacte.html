@@ -138,34 +138,24 @@
   })();
   </script>
 <script>
-// SRN_AJAX_FIX: submit via fetch, then redirect to _next (works inside LingQ if forms are blocked)
+// SRN_AJAX_FIX_NOCORS: robust submit inside iframes, then redirect to thanks
 (function(){
   const form = document.getElementById('formContacte');
   if (!form) return;
-  form.addEventListener('submit', async function(ev){ 
+  form.addEventListener('submit', function(ev){
     ev.preventDefault();
+    const fd = new FormData(form);
+    const next = fd.get('_next') || 'https://rosapanisello.github.io/Rosa/gracies.html';
     try {
-      const fd = new FormData(form);
-      // FormSubmit tip: include _captcha=false if present; keep fields as-is
-      const resp = await fetch(form.action || 'https://formsubmit.co/rosapanisello@gmail.com', {
-        method: 'POST',
-        body: fd,
-        headers: { 'Accept': 'application/json' }
-      });
-      // Ignore response body; redirect to thanks regardless if ok
-      if (resp.ok) {
-        // Redirect outside iframe when possible
-        try { window.top.location.href = fd.get('_next') || 'https://rosapanisello.github.io/Rosa/gracies.html'; }
-        catch(e) { window.location.href = fd.get('_next') || 'https://rosapanisello.github.io/Rosa/gracies.html'; }
-      } else {
-        // Fallback: still try to go to thanks page
-        try { window.top.location.href = fd.get('_next') || 'https://rosapanisello.github.io/Rosa/gracies.html'; }
-        catch(e) { window.location.href = fd.get('_next') || 'https://rosapanisello.github.io/Rosa/gracies.html'; }
-      }
+      fetch(form.action, { method: (form.method||'POST'), body: fd, mode: 'no-cors' })
+        .catch(()=>{})
+        .finally(()=>{ 
+          try { window.top.location.href = next; } 
+          catch(e) { window.location.href = next; }
+        });
     } catch(e) {
-      // Network blocked? Try to open thanks page so user sees confirm
-      try { window.top.location.href = 'https://rosapanisello.github.io/Rosa/gracies.html'; }
-      catch(_) { window.location.href = 'https://rosapanisello.github.io/Rosa/gracies.html'; }
+      try { window.top.location.href = next; } 
+      catch(_) { window.location.href = next; }
     }
   });
 })();</script></body>
