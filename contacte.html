@@ -56,7 +56,7 @@
 <div class="card"><div class="pad">
 <h1 style="margin:0 0 6px;color:#ec4899;text-transform:uppercase">Silent Reading Natura</h1>
 <p class="hero-sub" style="font-weight:700;margin:0 0 8px">Contacte</p>
-<form action="https://formsubmit.co/rosapanisello@gmail.com" id="formContacte" method="POST">
+<form id="formContacte" method="POST" action="https://formspree.io/f/xnngqbdb_FORM_ID">
 <label for="nom">Nom</label>
 <input id="nom" name="Nom" placeholder="Escriu el teu nom" required=""/>
 <label for="email">Correu electrònic</label>
@@ -64,8 +64,8 @@
 <label for="missatge">Missatge</label>
 <textarea id="missatge" name="Missatge" placeholder="Explica’ns què necessites…" required=""></textarea>
 <button class="btn primary" type="submit">Enviar</button>
-<input name="_captcha" type="hidden" value="false"/>
-<input name="_next" type="hidden" value="https://rosapanisello.github.io/Rosa/gracies.html"/>
+
+
 </form>
 <div style="margin-top:16px">
 <a class="btn" href="index.html">← Torna a l’inici</a>
@@ -84,5 +84,41 @@
 <button aria-label="Reproducir o pausar música" id="toggle" style="border:0;background:linear-gradient(180deg,#f472b6,#ec4899);color:#fff;border-radius:50%;width:28px;height:28px;font-size:14px;line-height:28px;text-align:center;cursor:pointer">▶︎</button>
 <input aria-label="Volumen música" id="vol" max="1" min="0" step="0.01" style="width:70px;height:4px;cursor:pointer;accent-color:#ec4899" type="range" value="0.15"/>
 </div>
+
+<!-- Formspree AJAX submit (added by helper) -->
+<script>
+(function(){
+  function wireForm(formId, thanksUrl){
+    var form = document.getElementById(formId);
+    if(!form) return;
+    form.addEventListener('submit', async function(ev){
+      ev.preventDefault();
+      var fd = new FormData(form);
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: fd,
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          window.location.href = thanksUrl;
+        } else {
+          // Try to extract error; fallback to alert
+          try {
+            const data = await res.json();
+            alert((data && data.errors && data.errors[0] && data.errors[0].message) || 'Error enviando el formulario.');
+          } catch(_){ alert('Error enviando el formulario.'); }
+        }
+      } catch(e){
+        alert('No se pudo contactar con el servidor. Revisa tu conexión.');
+      }
+    });
+  }
+  // Wire known forms
+  wireForm('formContacte', 'https://rosapanisello.github.io/Rosa/gracies.html');
+  wireForm('formInscripcio', 'https://rosapanisello.github.io/Rosa/gracies-inscripcio.html');
+})();
+</script>
+
 </body>
 </html>
