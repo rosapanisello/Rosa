@@ -5,34 +5,55 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Inscripció · Rosa Panisello i Lletres</title>
   <style>
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu;background:#fff7f9;color:#1f2937}
-    .container{max-width:800px;margin:0 auto;padding:24px}
-    .btn{display:inline-flex;gap:8px;align-items:center;padding:10px 16px;border-radius:999px;background:linear-gradient(180deg,#f472b6,#ec4899);color:#fff;text-decoration:none;border:none;cursor:pointer}
-    form{display:grid;gap:12px}
-    input,textarea,select{padding:12px;border-radius:12px;border:1px solid #ddd;width:100%}
+    body { font-family: system-ui, sans-serif; background:#fff7f9; margin:0; color:#1f2937; }
+    header { padding:20px; background:#ffeef5; text-align:center; }
+    .container { max-width:700px; margin:40px auto; padding:20px; }
+    .card { background:white; border:1px solid #fbcfe8; border-radius:20px; padding:30px; box-shadow:0 6px 20px rgba(236,72,153,.12); }
+    h1 { color:#ec4899; }
+    label { font-weight:600; margin-top:12px; display:block; }
+    input, select, textarea { width:100%; padding:12px; margin-top:6px; border-radius:12px; border:1px solid #ddd; }
+    button { margin-top:20px; padding:14px 20px; border:none; border-radius:999px; background:linear-gradient(180deg,#f472b6,#ec4899); color:white; font-weight:bold; cursor:pointer; }
+    button:hover { opacity:0.9; }
+    a { color:inherit; }
   </style>
 </head>
 <body>
+  <header>
+    <a href="index.html" style="text-decoration:none;font-weight:700">← Tornar a l’inici</a>
+  </header>
+
   <div class="container">
-    <h1>Inscripció</h1>
-    <form action="https://formsubmit.co/rosapanisello@gmail.com" method="POST">
-      <label>Nom <input name="Nom" required></label>
-      <label>Email <input name="Email" type="email" required></label>
-      <label>Telèfon <input name="Telèfon" type="tel"></label>
-      <label>Activitat
-        <select name="Activitat" required>
-          <option value="">-- Selecciona --</option>
+    <div class="card">
+      <h1>Inscripció a activitats</h1>
+      <p class="muted">Omple el formulari per reservar plaça en la trobada que t’interessi.</p>
+
+      <form action="https://formsubmit.co/rosapanisello@gmail.com" method="POST">
+        <label for="nom">Nom</label>
+        <input id="nom" name="Nom" required />
+
+        <label for="email">Correu electrònic</label>
+        <input id="email" name="Email" type="email" required />
+
+        <label for="telefon">Telèfon</label>
+        <input id="telefon" name="Telèfon" type="tel" />
+
+        <label for="activitat">Activitat / Trobada</label>
+        <select id="activitat" name="Activitat" required>
+          <option value="">-- Selecciona una opció --</option>
           <option>Silent Reading Party (SRP)</option>
           <option>SRP + Taller/Xerrada (quan s'anunciï)</option>
           <option>M'interessa rebre futures convocatòries</option>
         </select>
-      </label>
-      <label>Comentaris <textarea name="Missatge"></textarea></label>
-      <button class="btn" type="submit">Enviar inscripció</button>
-      <input type="hidden" name="_captcha" value="false">
-      <input type="hidden" name="_next" value="https://rosapanisello.github.io/Rosa/gracies-inscripcio.html">
-    </form>
-    <p><a href="index.html">← Tornar a l'inici</a></p>
+
+        <label for="missatge">Comentaris</label>
+        <textarea id="missatge" name="Missatge"></textarea>
+
+        <button class="btn" type="submit">Enviar inscripció</button>
+
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="https://rosapanisello.github.io/Rosa/gracies-inscripcio.html">
+      </form>
+    </div>
   </div>
 </body>
 </html>
