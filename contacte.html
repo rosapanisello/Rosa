@@ -56,7 +56,7 @@
 <div class="card"><div class="pad">
 <h1 style="margin:0 0 6px;color:#ec4899;text-transform:uppercase">Silent Reading Natura</h1>
 <p class="hero-sub" style="font-weight:700;margin:0 0 8px">Contacte</p>
-<form id="formContacte" method="POST" action="https://formspree.io/f/xnngqbdb_FORM_ID">
+<form id="formContacte" method="POST" action="https://formspree.io/f/xnngqbdb">
 <label for="nom">Nom</label>
 <input id="nom" name="Nom" placeholder="Escriu el teu nom" required=""/>
 <label for="email">Correu electrònic</label>
@@ -66,6 +66,10 @@
 <button class="btn primary" type="submit">Enviar</button>
 
 
+
+  <input type="hidden" name="_next" value="https://rosapanisello.github.io/Rosa/gracies.html">
+
+  <p class="form-status" aria-live="polite"></p>
 </form>
 <div style="margin-top:16px">
 <a class="btn" href="index.html">← Torna a l’inici</a>
@@ -85,40 +89,69 @@
 <input aria-label="Volumen música" id="vol" max="1" min="0" step="0.01" style="width:70px;height:4px;cursor:pointer;accent-color:#ec4899" type="range" value="0.15"/>
 </div>
 
-<!-- Formspree AJAX submit (added by helper) -->
+
+<!-- Formspree AJAX with fallback: if request fails, submit natively -->
 <script>
 (function(){
-  function wireForm(formId, thanksUrl){
+  function enhance(formId, thanksUrl){
     var form = document.getElementById(formId);
     if(!form) return;
-    form.addEventListener('submit', async function(ev){
+
+    // Ensure action/method
+    form.setAttribute('action', 'https://formspree.io/f/xnngqbdb');
+    form.setAttribute('method', 'POST');
+
+    async function handleSubmit(ev){
       ev.preventDefault();
       var fd = new FormData(form);
-      try {
-        const res = await fetch(form.action, {
-          method: 'POST',
+      var statusEl = form.querySelector('.form-status');
+
+      // Timeout controller (10s)
+      var controller = new AbortController();
+      var timer = setTimeout(function(){ controller.abort(); }, 10000);
+
+      try{
+        var res = await fetch(form.action, {
+          method: form.method,
           body: fd,
-          headers: { 'Accept': 'application/json' }
+          headers: { 'Accept': 'application/json' },
+          signal: controller.signal
         });
-        if (res.ok) {
+        clearTimeout(timer);
+        if(res.ok){
           window.location.href = thanksUrl;
-        } else {
-          // Try to extract error; fallback to alert
-          try {
-            const data = await res.json();
-            alert((data && data.errors && data.errors[0] && data.errors[0].message) || 'Error enviando el formulario.');
-          } catch(_){ alert('Error enviando el formulario.'); }
+          return;
+        }else{
+          try{
+            var data = await res.json();
+            if(statusEl) statusEl.textContent = (data && data.errors && data.errors[0] && data.errors[0].message) || 'Error enviant el formulari.';
+          }catch(_){
+            if(statusEl) statusEl.textContent = 'Error enviant el formulari.';
+          }
         }
-      } catch(e){
-        alert('No se pudo contactar con el servidor. Revisa tu conexión.');
+      }catch(e){
+        if(statusEl) statusEl.textContent = 'No s’ha pogut contactar amb el servidor. S’intenta la via segura...';
       }
-    });
+
+      // Graceful fallback: remove listener and let the browser do a native POST
+      form.removeEventListener('submit', handleSubmit);
+      // Ensure _next exists for native success redirect
+      if(!form.querySelector('input[name="_next"]')){
+        var nx = document.createElement('input');
+        nx.type = 'hidden';
+        nx.name = '_next';
+        nx.value = thanksUrl;
+        form.appendChild(nx);
+      }
+      form.submit();
+    }
+
+    form.addEventListener('submit', handleSubmit);
   }
-  // Wire known forms
-  wireForm('formContacte', 'https://rosapanisello.github.io/Rosa/gracies.html');
-  wireForm('formInscripcio', 'https://rosapanisello.github.io/Rosa/gracies-inscripcio.html');
+
+  enhance('formContacte', 'https://rosapanisello.github.io/Rosa/gracies.html');
+  enhance('formInscripcio', 'https://rosapanisello.github.io/Rosa/gracies-inscripcio.html');
 })();
 </script>
-
 </body>
 </html>
