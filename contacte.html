@@ -56,7 +56,7 @@
 <div class="card"><div class="pad">
 <h1 style="margin:0 0 6px;color:#ec4899;text-transform:uppercase">Silent Reading Natura</h1>
 <p class="hero-sub" style="font-weight:700;margin:0 0 8px">Contacte</p>
-<form action="https://formsubmit.co/rosapanisello@gmail.com" id="formContacte" method="POST">
+<form id="formContacte" method="POST" action="https://formspree.io/f/xnngqbdb">
 <label for="nom">Nom</label>
 <input id="nom" name="Nom" placeholder="Escriu el teu nom" required=""/>
 <label for="email">Correu electrònic</label>
@@ -64,8 +64,12 @@
 <label for="missatge">Missatge</label>
 <textarea id="missatge" name="Missatge" placeholder="Explica’ns què necessites…" required=""></textarea>
 <button class="btn primary" type="submit">Enviar</button>
-<input name="_captcha" type="hidden" value="false"/>
-<input name="_next" type="hidden" value="https://rosapanisello.github.io/Rosa/gracies.html"/>
+
+
+
+  <input type="hidden" name="_next" value="https://rosapanisello.github.io/Rosa/gracies.html">
+
+  <p class="form-status" aria-live="polite"></p>
 </form>
 <div style="margin-top:16px">
 <a class="btn" href="index.html">← Torna a l’inici</a>
@@ -78,11 +82,76 @@
 <small>Instagram: <span>@rosapanisello_lletres</span></small>
 </div>
 </footer>
-<!-- Mini player: expects file at img/1.mp3 --><!-- Mini player compacto: usa img/1.mp3 -->
-<audio src="1.mp3" controls></audio>
+<!-- Mini player: expects file at img/ --><!-- Mini player compacto: usa img/ -->
+
 <div id="player" style="position:fixed;bottom:10px;left:10px;display:flex;gap:6px;align-items:center;background:#fff;border:1px solid #fbcfe8;border-radius:999px;padding:4px 6px;box-shadow:0 4px 10px rgba(236,72,153,.12);z-index:9999">
 <button aria-label="Reproducir o pausar música" id="toggle" style="border:0;background:linear-gradient(180deg,#f472b6,#ec4899);color:#fff;border-radius:50%;width:28px;height:28px;font-size:14px;line-height:28px;text-align:center;cursor:pointer">▶︎</button>
 <input aria-label="Volumen música" id="vol" max="1" min="0" step="0.01" style="width:70px;height:4px;cursor:pointer;accent-color:#ec4899" type="range" value="0.15"/>
 </div>
+
+
+<!-- Formspree AJAX with fallback: if request fails, submit natively -->
+<script>
+(function(){
+  function enhance(formId, thanksUrl){
+    var form = document.getElementById(formId);
+    if(!form) return;
+
+    // Ensure action/method
+    form.setAttribute('action', 'https://formspree.io/f/xnngqbdb');
+    form.setAttribute('method', 'POST');
+
+    async function handleSubmit(ev){
+      ev.preventDefault();
+      var fd = new FormData(form);
+      var statusEl = form.querySelector('.form-status');
+
+      // Timeout controller (10s)
+      var controller = new AbortController();
+      var timer = setTimeout(function(){ controller.abort(); }, 10000);
+
+      try{
+        var res = await fetch(form.action, {
+          method: form.method,
+          body: fd,
+          headers: { 'Accept': 'application/json' },
+          signal: controller.signal
+        });
+        clearTimeout(timer);
+        if(res.ok){
+          window.location.href = thanksUrl;
+          return;
+        }else{
+          try{
+            var data = await res.json();
+            if(statusEl) statusEl.textContent = (data && data.errors && data.errors[0] && data.errors[0].message) || 'Error enviant el formulari.';
+          }catch(_){
+            if(statusEl) statusEl.textContent = 'Error enviant el formulari.';
+          }
+        }
+      }catch(e){
+        if(statusEl) statusEl.textContent = 'No s’ha pogut contactar amb el servidor. S’intenta la via segura...';
+      }
+
+      // Graceful fallback: remove listener and let the browser do a native POST
+      form.removeEventListener('submit', handleSubmit);
+      // Ensure _next exists for native success redirect
+      if(!form.querySelector('input[name="_next"]')){
+        var nx = document.createElement('input');
+        nx.type = 'hidden';
+        nx.name = '_next';
+        nx.value = thanksUrl;
+        form.appendChild(nx);
+      }
+      form.submit();
+    }
+
+    form.addEventListener('submit', handleSubmit);
+  }
+
+  enhance('formContacte', 'https://rosapanisello.github.io/Rosa/gracies.html');
+  enhance('formInscripcio', 'https://rosapanisello.github.io/Rosa/gracies-inscripcio.html');
+})();
+</script>
 </body>
 </html>
