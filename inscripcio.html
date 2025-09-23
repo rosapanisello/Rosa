@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Inscripció · Rosa Panisello i Lletres</title>
+  <style>
+    body { font-family: system-ui, sans-serif; background:#fff7f9; margin:0; color:#1f2937; }
+    header { padding:20px; background:#ffeef5; text-align:center; }
+    .container { max-width:700px; margin:40px auto; padding:20px; }
+    .card { background:white; border:1px solid #fbcfe8; border-radius:20px; padding:30px; box-shadow:0 6px 20px rgba(236,72,153,.12); }
+    h1 { color:#ec4899; }
+    label { font-weight:600; margin-top:12px; display:block; }
+    input, select, textarea { width:100%; padding:12px; margin-top:6px; border-radius:12px; border:1px solid #ddd; }
+    button { margin-top:20px; padding:14px 20px; border:none; border-radius:999px; background:linear-gradient(180deg,#f472b6,#ec4899); color:white; font-weight:bold; cursor:pointer; }
+    button:hover { opacity:0.9; }
+    a { color:inherit; }
+  </style>
+</head>
+<body>
+  <header>
+    <a href="index.html" style="text-decoration:none;font-weight:700">← Tornar a l’inici</a>
+  </header>
+
+  <div class="container">
+    <div class="card">
+      <h1>Inscripció a activitats</h1>
+      <p class="muted">Omple el formulari per reservar plaça en la trobada que t’interessi.</p>
+
+      <form action="https://formsubmit.co/rosapanisello@gmail.com" method="POST">
+        <label for="nom">Nom</label>
+        <input id="nom" name="Nom" required placeholder="Escriu el teu nom" />
+
+        <label for="email">Correu electrònic</label>
+        <input id="email" name="Email" type="email" required placeholder="tu@exemple.com" />
+
+        <label for="telefon">Telèfon</label>
+        <input id="telefon" name="Telèfon" type="tel" placeholder="Opcional" />
+
+        <label for="activitat">Activitat / Trobada</label>
+        <select id="activitat" name="Activitat" required>
+          <option value="">-- Selecciona una opció --</option>
+          <option value="Silent Reading Party (SRP)">Silent Reading Party (SRP)</option>
+          <option value="SRP + Taller/Xerrada (quan s'anunciï)">SRP + Taller/Xerrada (quan s'anunciï)</option>
+          <option value="M'interessa rebre futures convocatòries">M'interessa rebre futures convocatòries</option>
+        </select>
+
+        <label for="missatge">Comentaris</label>
+        <textarea id="missatge" name="Missatge" placeholder="Escriu si tens alguna necessitat especial..."></textarea>
+
+        <button type="submit">Enviar inscripció</button>
+
+        <input type="hidden" name="_captcha" value="false">
+        <input type="hidden" name="_next" value="gracies-inscripcio.html">
+      </form>
+    </div>
+  </div>
+</body>
+</html>
