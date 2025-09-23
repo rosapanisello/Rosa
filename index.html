@@ -4,160 +4,33 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Rosa Panisello i Lletres — Silent Reading Book Club · Camp de Tarragona</title>
-  <meta name="description" content="Silent Reading Book Club al Camp de Tarragona: 1 hora de lectura en silenci + 1 hora de conversa compartida. Extres puntuals: tallers, xerrades, dinars." />
-  <meta property="og:title" content="Rosa Panisello i Lletres — Silent Reading Book Club · Camp de Tarragona" />
-  <meta property="og:description" content="Lectura en silenci i cultura en comunitat. Apunta-t’hi a la propera trobada." />
-  <meta property="og:type" content="website" />
-  <meta name="theme-color" content="#ec4899" />
+  <meta name="description" content="Silent Reading Book Club al Camp de Tarragona: 1 hora de lectura en silenci + 1 hora de conversa compartida." />
   <style>
-    :root{
-      --bg:#fff7f9; --text:#1f2937; --muted:#6b7280; --brand:#ec4899; --brand2:#f472b6;
-      --shadow:0 10px 20px rgba(236,72,153,.12),0 6px 6px rgba(236,72,153,.10);
-    }
-    *{box-sizing:border-box}
-    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu}
-    body{background-image:radial-gradient(1000px 600px at -10% -20%, #ffe4f1 0%, transparent 60%), radial-gradient(900px 500px at 110% -30%, #e0f7f5 0%, transparent 60%)}
-    a{color:inherit;text-decoration:none}
-    .container{max-width:1100px;margin:0 auto;padding:24px}
-    header{position:sticky;top:0;z-index:10;background:rgba(255,255,255,.85);backdrop-filter:blur(8px);border-bottom:1px solid #fbcfe8}
-    .nav{display:flex;align-items:center;justify-content:space-between;gap:12px}
-    .brand{font-weight:800;letter-spacing:.2px}
-    .tagline{display:block;color:#6b7280;font-weight:600;font-size:.8rem;margin-top:2px}
-    .btn{display:inline-flex;align-items:center;gap:8px;padding:10px 16px;border-radius:999px;border:1px solid rgba(0,0,0,.06);background:linear-gradient(180deg,rgba(255,255,255,.9),rgba(255,255,255,.75));box-shadow:var(--shadow)}
-    .btn.primary{border-color:transparent;background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff}
-    .grid{display:grid;gap:24px}
-    .hero{padding:64px 0 24px;background:radial-gradient(1200px 600px at 100% -100%, rgba(244,114,182,.25), transparent 60%), radial-gradient(900px 500px at -10% -60%, rgba(14,165,233,.18), transparent 60%)}
-    .card{background:linear-gradient(180deg,#fff,#fff7fc);border:1px solid #fbcfe8;border-radius:20px;box-shadow:var(--shadow)}
-    .card .pad{padding:24px}
-    h1{font-size:clamp(2rem,4vw,3rem);margin:10px 0 12px}
-    p.lead{color:var(--muted)}
-    section{padding:40px 0}
-    .features{grid-template-columns:repeat(2,1fr)}
-    .feature img{width:100%;border-radius:14px;margin-bottom:8px}
-    footer{padding:32px 0;color:#6b7280;border-top:1px solid #fbcfe8}
-
-    /* Formularis responsius */
-    form { display:grid; gap:14px; }
-    label { font-weight:600; }
-    input, textarea, select {
-      width:100%; padding:12px 14px; border-radius:14px; border:1px solid #ddd; background:#fff; font-size:1rem;
-    }
-    input:focus, textarea:focus, select:focus { border-color:var(--brand); box-shadow:0 0 0 4px rgba(236,72,153,.25); outline:none; }
-    textarea { min-height:120px; resize:vertical; }
-    button.btn.primary { justify-self:start; padding:12px 22px; font-size:1rem; }
-    @media (max-width:900px){ .features{grid-template-columns:1fr} }
-    @media (max-width:600px){ .hero .content{grid-template-columns:1fr !important} button.btn.primary{justify-self:stretch;text-align:center} }
+    :root{--bg:#fff7f9;--text:#1f2937;--brand:#ec4899;--brand2:#f472b6}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu;background:var(--bg);color:var(--text)}
+    .container{max-width:1000px;margin:0 auto;padding:24px}
+    .btn{display:inline-flex;gap:8px;align-items:center;padding:10px 16px;border-radius:999px;background:linear-gradient(180deg,var(--brand2),var(--brand));color:#fff;text-decoration:none;border:none;cursor:pointer}
+    form{display:grid;gap:12px}
+    input,textarea,select{padding:12px;border-radius:12px;border:1px solid #ddd;width:100%}
   </style>
 </head>
 <body>
-  <header>
-    <div class="container nav">
-      <a class="logo" href="index.html" aria-label="Inici">
-        <span class="brand">Rosa Panisello i Lletres</span>
-        <small class="tagline">rosapanisello_lletres</small>
-      </a>
-      <nav aria-label="Principal" style="display:flex;gap:8px;flex-wrap:wrap">
-        <a class="btn" href="#qui-som">Qui som</a>
-        <a class="btn" href="#serveis">Activitats</a>
-        <a class="btn" href="inscripcio.html">Inscripció</a>
-        <a class="btn primary" href="#contacte">Contacte</a>
-      </nav>
-    </div>
-  </header>
+  <div class="container">
+    <h1>Silent Reading Book Club · Camp de Tarragona</h1>
+    <p>1 hora de lectura en silenci + 1 hora de conversa compartida.</p>
 
-  <main id="inici" class="hero">
-    <div class="container content grid" style="grid-template-columns:1.1fr .9fr;align-items:center">
-      <div>
-        <span style="color:#ec4899;letter-spacing:.14em;text-transform:uppercase;font-weight:700;font-size:.8rem">Silent Reading Book Club</span>
-        <h1>Camp de Tarragona</h1>
-        <p class="lead">1 hora de lectura en silenci + 1 hora de conversa compartida. Espais bonics i acollidors per llegir sense presses.</p>
-        <div style="margin-top:18px;display:flex;gap:12px;flex-wrap:wrap">
-          <a class="btn primary" href="inscripcio.html">Apunta-t’hi</a>
-          <a class="btn" href="#serveis">Veure activitats</a>
-        </div>
-      </div>
-      <img src="img/hero.jpg" alt="Lectura en silenci a un espai acollidor" style="width:100%;border-radius:20px" />
-    </div>
-  </main>
+    <h2 id="contacte">Contacte</h2>
+    <form action="https://formsubmit.co/rosapanisello@gmail.com" method="POST">
+      <label>Nom <input name="Nom" required></label>
+      <label>Email <input name="Email" type="email" required></label>
+      <label>Missatge <textarea name="Missatge" required></textarea></label>
+      <button class="btn" type="submit">Enviar</button>
+      <input type="hidden" name="_captcha" value="false">
+      <!-- Usa URL absoluta per evitar 404 de subcarpeta /Rosa/ -->
+      <input type="hidden" name="_next" value="https://rosapanisello.github.io/Rosa/gracies.html">
+    </form>
 
-  <section id="serveis">
-    <div class="container">
-      <h2>Activitats</h2>
-      <p class="lead">La nostra proposta central és la <strong>Silent Reading Party</strong>. A vegades, hi afegim extres.</p>
-
-      <div class="grid features">
-        <!-- Silent Reading Party -->
-        <div class="feature">
-          <img src="img/silent-reading.jpg" alt="Persones llegint en silenci en un espai acollidor" />
-          <h3>Silent Reading Party</h3>
-          <p><strong>2 hores</strong> en total:</p>
-          <ul style="margin:0 0 10px 18px; line-height:1.7">
-            <li><strong>1a hora — Lectura en solitari</strong> en un espai bonic (bosc, jardí, biblioteca o cafè).</li>
-            <li><strong>2a hora — Conversa compartida</strong> per explicar què hem llegit, recomanar i descobrir.</li>
-          </ul>
-          <p style="margin:0 0 12px">Porta el teu llibre (o te’n suggerim) i gaudeix d’un ambient tranquil i cuidat.</p>
-          <a class="btn" href="inscripcio.html">Apunta-t’hi</a>
-        </div>
-
-        <!-- Extres opcionals -->
-        <div class="feature">
-          <img src="img/tallers.jpg" alt="Taller o xerrada literària" />
-          <h3>Extres: tallers i xerrades</h3>
-          <ul style="margin:0 0 10px 18px; line-height:1.7">
-            <li><strong>Tallers/Xerrades</strong> amb autores, autors o especialistes (després de la SRP o en data pròpia).</li>
-            <li><strong>Esdeveniments especials</strong> puntuals: dinar, passejada pel bosc o activitat artística.</li>
-          </ul>
-          <p style="margin:0 0 12px">Quan hi hagi extres, ho indicarem a la convocatòria d’inscripció.</p>
-          <a class="btn" href="inscripcio.html">Vull rebre convocatòries</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section id="qui-som">
-    <div class="container grid about" style="grid-template-columns:1fr 1fr;align-items:center">
-      <div>
-        <h2>Qui som</h2>
-        <p>Som el projecte <strong>Rosa Panisello i Lletres</strong>. Creem espais amables per llegir i compartir cultura amb calma.</p>
-        <ul class="lead" style="line-height:1.9">
-          <li>Organització d’esdeveniments a mida</li>
-          <li>Col·laboracions amb centres educatius</li>
-          <li>Comunitat al Camp de Tarragona</li>
-        </ul>
-      </div>
-      <img src="img/qui-som.jpg" alt="Grup llegint en silenci en un espai agradable" style="width:100%;border-radius:22px" />
-    </div>
-  </section>
-
-  <section id="contacte">
-    <div class="container">
-      <div class="card">
-        <div class="pad">
-          <h2 style="margin-top:0">Contacte</h2>
-          <p class="lead">Per consultes generals, fes servir aquest formulari.</p>
-          <form action="https://formsubmit.co/rosapanisello@gmail.com" method="POST">
-            <label for="nom">Nom</label>
-            <input id="nom" name="Nom" required placeholder="Escriu el teu nom" />
-            <label for="email">Correu electrònic</label>
-            <input id="email" name="Email" type="email" required placeholder="tu@exemple.com" />
-            <label for="missatge">Missatge</label>
-            <textarea id="missatge" name="Missatge" required placeholder="Explica’ns què necessites…"></textarea>
-            <button class="btn primary" type="submit">Enviar</button>
-            <input type="hidden" name="_captcha" value="false">
-            <input type="hidden" name="_next" value="gracies.html">
-          </form>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <footer>
-    <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
-      <small>© <span id="y"></span> Rosa Panisello i Lletres · Tots els drets reservats</small>
-      <small>Instagram: <span>@rosapanisello_lletres</span></small>
-    </div>
-  </footer>
-
-  <script>document.getElementById('y').textContent=new Date().getFullYear();</script>
+    <p><a class="btn" href="inscripcio.html">Anar a Inscripció</a></p>
+  </div>
 </body>
 </html>
