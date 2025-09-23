@@ -1,10 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="ca">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Inscripció · Silent Reading Natura</title>
-  <style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>Inscripció · Silent Reading Natura</title>
+<style>
     
   :root{
     --bg:#fff7f9; --text:#111827; --muted:#6b7280; --brand:#ec4899; --brand2:#f472b6;
@@ -39,58 +40,56 @@
   </style>
 </head>
 <body>
-  <header>
-    <div class="container nav">
-      <a class="logo" href="index.html" aria-label="Inici">
-        <span class="brand">Silent Reading Natura</span>
-        <small class="tagline">By Rosa Panisello</small>
-      </a>
-      <nav style="display:flex;gap:8px;flex-wrap:wrap">
-        <a class="btn" href="contacte.html">Contacte</a>
-      </nav>
-    </div>
-  </header>
-
-  <main class="container" style="padding-top:24px">
-    <div class="card"><div class="pad">
-      <h1 style="margin:0 0 6px;color:#ec4899;text-transform:uppercase">Silent Reading Natura</h1>
-      <p class="hero-sub" style="font-weight:700;margin:0 0 8px">Inscripció a activitats</p>
-      <form action="https://formsubmit.co/rosapanisello@gmail.com" method="POST">
-        <label for="nom">Nom</label>
-        <input id="nom" name="Nom" required />
-        <label for="email">Correu electrònic</label>
-        <input id="email" name="Email" type="email" required />
-        <label for="telefon">Telèfon</label>
-        <input id="telefon" name="Telèfon" type="tel" />
-        <label for="activitat">Activitat / Trobada</label>
-        <select id="activitat" name="Activitat" required>
-          <option value="">-- Selecciona una opció --</option>
-          <option>Silent Reading Party (SRP)</option>
-          <option>SRP + Taller/Xerrada (quan s'anunciï)</option>
-          <option>M'interessa rebre futures convocatòries</option>
-        </select>
-        <label for="missatge">Comentaris</label>
-        <textarea id="missatge" name="Missatge"></textarea>
-        <button class="btn primary" type="submit">Enviar inscripció</button>
-        <input type="hidden" name="_captcha" value="false">
-        <input type="hidden" name="_next" value="https://rosapanisello.github.io/Rosa/gracies-inscripcio.html">
-      </form>
-    </div></div>
-  </main>
-
-  <footer>
-    <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
-      <small>© 2025 Silent Reading Natura By Rosa Panisello · Tots els drets reservats</small>
-      <small>Instagram: <span>@rosapanisello_lletres</span></small>
-    </div>
-  </footer>
+<header>
+<div class="container nav">
+<a aria-label="Inici" class="logo" href="index.html">
+<span class="brand">Silent Reading Natura</span>
+<small class="tagline">By Rosa Panisello</small>
+</a>
+<nav style="display:flex;gap:8px;flex-wrap:wrap">
+<a class="btn" href="contacte.html">Contacte</a>
+</nav>
+</div>
+</header>
+<main class="container" style="padding-top:24px">
+<div class="card"><div class="pad">
+<h1 style="margin:0 0 6px;color:#ec4899;text-transform:uppercase">Silent Reading Natura</h1>
+<p class="hero-sub" style="font-weight:700;margin:0 0 8px">Inscripció a activitats</p>
+<form action="https://formsubmit.co/rosapanisello@gmail.com" method="POST" target="_top">
+<label for="nom">Nom</label>
+<input id="nom" name="Nom" required=""/>
+<label for="email">Correu electrònic</label>
+<input id="email" name="Email" required="" type="email"/>
+<label for="telefon">Telèfon</label>
+<input id="telefon" name="Telèfon" type="tel"/>
+<label for="activitat">Activitat / Trobada</label>
+<select id="activitat" name="Activitat" required="">
+<option value="">-- Selecciona una opció --</option>
+<option>Silent Reading Party (SRP)</option>
+<option>SRP + Taller/Xerrada (quan s'anunciï)</option>
+<option>M'interessa rebre futures convocatòries</option>
+</select>
+<label for="missatge">Comentaris</label>
+<textarea id="missatge" name="Missatge"></textarea>
+<button class="btn primary" type="submit">Enviar inscripció</button>
+<input name="_captcha" type="hidden" value="false"/>
+<input name="_next" type="hidden" value="https://rosapanisello.github.io/Rosa/gracies-inscripcio.html"/>
+</form>
+</div></div>
+</main>
+<footer>
+<div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+<small>© 2025 Silent Reading Natura By Rosa Panisello · Tots els drets reservats</small>
+<small>Instagram: <span>@rosapanisello_lletres</span></small>
+</div>
+</footer>
 <!-- Mini player: expects file at img/1.mp3 --><!-- Mini player compacto: usa img/1.mp3 -->
-  <audio id="bgm" src="img/1.mp3" loop preload="auto"></audio>
-  <div id="player" style="position:fixed;bottom:10px;left:10px;display:flex;gap:6px;align-items:center;background:#fff;border:1px solid #fbcfe8;border-radius:999px;padding:4px 6px;box-shadow:0 4px 10px rgba(236,72,153,.12);z-index:9999">
-    <button id="toggle" aria-label="Reproducir o pausar música" style="border:0;background:linear-gradient(180deg,#f472b6,#ec4899);color:#fff;border-radius:50%;width:28px;height:28px;font-size:14px;line-height:28px;text-align:center;cursor:pointer">▶︎</button>
-    <input id="vol" aria-label="Volumen música" type="range" min="0" max="1" step="0.01" value="0.15" style="width:70px;height:4px;cursor:pointer;accent-color:#ec4899">
-  </div>
-  <script>
+<audio id="bgm" loop="" preload="auto" src="img/1.mp3"></audio>
+<div id="player" style="position:fixed;bottom:10px;left:10px;display:flex;gap:6px;align-items:center;background:#fff;border:1px solid #fbcfe8;border-radius:999px;padding:4px 6px;box-shadow:0 4px 10px rgba(236,72,153,.12);z-index:9999">
+<button aria-label="Reproducir o pausar música" id="toggle" style="border:0;background:linear-gradient(180deg,#f472b6,#ec4899);color:#fff;border-radius:50%;width:28px;height:28px;font-size:14px;line-height:28px;text-align:center;cursor:pointer">▶︎</button>
+<input aria-label="Volumen música" id="vol" max="1" min="0" step="0.01" style="width:70px;height:4px;cursor:pointer;accent-color:#ec4899" type="range" value="0.15"/>
+</div>
+<script>
   (function(){
     const audio = document.getElementById('bgm');
     const btn = document.getElementById('toggle');
