@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
-<title>Inscripció · Silent Reading Natura</title>
+<title>Inscripció · Silent Book Club Natura</title>
 <style>
     
   :root{
@@ -43,7 +43,7 @@
 <header>
 <div class="container nav">
 <a aria-label="Inici" class="logo" href="index.html">
-<span class="brand">Silent Reading Natura</span>
+<span class="brand">Silent Book Club Natura</span>
 <small class="tagline">By Rosa Panisello</small>
 </a>
 <nav style="display:flex;gap:8px;flex-wrap:wrap">
@@ -53,9 +53,9 @@
 </header>
 <main class="container" style="padding-top:24px">
 <div class="card"><div class="pad">
-<h1 style="margin:0 0 6px;color:#ec4899;text-transform:uppercase">Silent Reading Natura</h1>
+<h1 style="margin:0 0 6px;color:#ec4899;text-transform:uppercase">Silent Book Club Natura</h1>
 <p class="hero-sub" style="font-weight:700;margin:0 0 8px">Inscripció a activitats</p>
-<form id="formInscripcio" method="POST" action="https://formspree.io/f/xnngqbdb">
+<form action="https://formspree.io/f/xnngqbdb" id="formInscripcio" method="POST">
 <label for="nom">Nom</label>
 <input id="nom" name="Nom" required=""/>
 <label for="email">Correu electrònic</label>
@@ -63,27 +63,18 @@
 <label for="telefon">Telèfon</label>
 <input id="telefon" name="Telèfon" type="tel"/>
 <label for="activitat">Activitat / Trobada</label>
-<select id="activitat" name="Activitat" required="">
-<option value="">-- Selecciona una opció --</option>
-<option>Silent Reading Party (SRP)</option>
-<option>SRP + Taller/Xerrada (quan s'anunciï)</option>
-<option>M'interessa rebre futures convocatòries</option>
-</select>
+<select id="activitat" name="Activitat" required="True"><option selected="True" value="">-- Selecciona una opció --</option><optgroup label="Albiol — 4/10 · 11:00"><option value="Albiol — 4/10 — 11:00 — Silent Reading Party">Silent Reading Party</option><option value="Albiol — 4/10 — 11:00 — Silent Reading Party + esmorzar (6 €)">Silent Reading Party + esmorzar (6 €)</option></optgroup><option value="M'interessa rebre futures convocatòries">M'interessa rebre futures convocatòries</option></select>
 <label for="missatge">Comentaris</label>
 <textarea id="missatge" name="Missatge"></textarea>
 <button class="btn primary" type="submit">Enviar inscripció</button>
-
-
-
-  <input type="hidden" name="_next" value="https://rosapanisello.github.io/Rosa/gracies-inscripcio.html">
-
-  <p class="form-status" aria-live="polite"></p>
+<input name="_next" type="hidden" value="https://rosapanisello.github.io/Rosa/gracies-inscripcio.html"/>
+<p aria-live="polite" class="form-status"></p>
 </form>
 </div></div>
 </main>
 <footer>
 <div class="container" style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
-<small>© 2025 Silent Reading Natura By Rosa Panisello · Tots els drets reservats</small>
+<small>© 2025 Silent Book Club Natura By Rosa Panisello · Tots els drets reservats</small>
 <small>Instagram: <span>@rosapanisello_lletres</span></small>
 </div>
 </footer>
