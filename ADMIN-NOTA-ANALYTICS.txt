@@ -1,0 +1,1 @@
+Este paquete usa JSONP y pixel GET al endpoint de Apps Script. Asegúrate de actualizar el código de Apps Script con la versión JSONP/GET que te proporcionará el asistente en el chat.

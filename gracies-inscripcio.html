@@ -42,7 +42,9 @@
 })();
 </script>
 <!-- visit-tracker (GAS) end -->
-<!-- visible-visit-counter start -->
+
+
+<!-- visible-visit-counter (JSONP) start -->
 <style>
   .cv-counter-badge{
     position:fixed; right:16px; bottom:16px; z-index:9999;
@@ -56,22 +58,33 @@
 <div class="cv-counter-badge" id="cvCounter" aria-live="polite" title="Visites totals">Visites: —</div>
 <script>
 (function(){
-  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec'.replace(/\/$/, '');
-  async function load(){
-    try{
-      const r = await fetch(ENDPOINT);
-      const j = await r.json();
-      const total = (j && typeof j.total !== 'undefined') ? j.total : null;
-      if(total!==null){
-        document.getElementById('cvCounter').textContent = 'Visites: ' + total.toLocaleString();
-      }
-    }catch(e){
-      // keep placeholder
-    }
-  }
-  load();
+  // 1) Log hit via GET pixel (no CORS issues)
+  try {
+    var p = new URLSearchParams();
+    p.append('hit','1');
+    p.append('path', location.pathname + location.search);
+    p.append('referrer', document.referrer || '');
+    var u = new URLSearchParams(location.search);
+    ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(function(k){
+      var v = u.get(k); if(v) p.append(k, v);
+    });
+    var img = new Image(1,1);
+    img.referrerPolicy = 'no-referrer-when-downgrade';
+    img.src = 'https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec' + '?' + p.toString();
+  } catch(e) { /* ignore */ }
+
+  // 2) Read total via JSONP
+  window.CV_COUNTER_CB = function(data){
+    try{ 
+      var t = (data && typeof data.total !== 'undefined') ? data.total : null;
+      if(t !== null) document.getElementById('cvCounter').textContent = 'Visites: ' + t.toLocaleString();
+    }catch(_e){}
+  };
+  var s = document.createElement('script');
+  s.src = 'https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec?summary=1&callback=CV_COUNTER_CB';
+  document.head.appendChild(s);
 })();
 </script>
-<!-- visible-visit-counter end -->
+<!-- visible-visit-counter (JSONP) end -->
 </body>
 </html>
