@@ -181,19 +181,25 @@
 <script>
 (function(){
   
-  // Session (tab) gating: count once per browser tab until it's closed
+  // Count at most once per 10 minutes per browser
   try {
-    var KEY = 'cv_session_hit';
-    var hasHit = sessionStorage.getItem(KEY) === '1';
-    if (!hasHit) {
-      sessionStorage.setItem(KEY, '1');
+    var ENDPOINT_TS_KEY = 'cv_last_hit_ts';
+    var now = Date.now();
+    var last = parseInt(localStorage.getItem(ENDPOINT_TS_KEY) || '0', 10);
+    var TEN_MIN = 10 * 60 * 1000;
+    var shouldSend = (!last || (now - last) > TEN_MIN);
+    // Allow manual reset with ?reset=1
+    var params = new URLSearchParams(location.search);
+    if (params.has('reset')) { shouldSend = true; }
+
+    if (shouldSend) {
+      localStorage.setItem(ENDPOINT_TS_KEY, String(now));
       var p = new URLSearchParams();
       p.append('hit','1');
       p.append('path', location.pathname + location.search);
       p.append('referrer', document.referrer || '');
-      var u = new URLSearchParams(location.search);
       ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(function(k){
-        var v = u.get(k); if(v) p.append(k, v);
+        var v = params.get(k); if(v) p.append(k, v);
       });
       var img = new Image(1,1);
       img.referrerPolicy = 'no-referrer-when-downgrade';
