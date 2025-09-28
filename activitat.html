@@ -135,19 +135,20 @@
 <script>
 (function(){
   
-  // Count at most once per 10 minutes per browser
+  
+  // Count at most once per 10 minutes per browser. Allow ?force=1 to override.
   try {
-    var ENDPOINT_TS_KEY = 'cv_last_hit_ts';
+    var KEY = 'cv_last_hit_ts';
     var now = Date.now();
-    var last = parseInt(localStorage.getItem(ENDPOINT_TS_KEY) || '0', 10);
+    var last = parseInt(localStorage.getItem(KEY) || '0', 10);
     var TEN_MIN = 10 * 60 * 1000;
-    var shouldSend = (!last || (now - last) > TEN_MIN);
-    // Allow manual reset with ?reset=1
     var params = new URLSearchParams(location.search);
-    if (params.has('reset')) { shouldSend = true; }
+    var force = params.has('force') && params.get('force') !== '0';
+    var shouldSend = force || (!last || (now - last) > TEN_MIN);
 
     if (shouldSend) {
-      localStorage.setItem(ENDPOINT_TS_KEY, String(now));
+      if (force) { console.log('[cv] forcing hit (ignore 10min throttle)'); }
+      localStorage.setItem(KEY, String(now));
       var p = new URLSearchParams();
       p.append('hit','1');
       p.append('path', location.pathname + location.search);
@@ -157,9 +158,13 @@
       });
       var img = new Image(1,1);
       img.referrerPolicy = 'no-referrer-when-downgrade';
-      img.src = ENDPOINT + '?' + p.toString() + '&ts=' + Date.now();
+      var url = ENDPOINT + '?' + p.toString() + '&ts=' + Date.now();
+      console.log('[cv] sending hit:', url);
+      img.src = url;
+    } else {
+      console.log('[cv] throttled (10min window). Last:', last, 'Now:', now);
     }
-  } catch(e) { /* ignore */ }
+  } catch(e) { console.warn('[cv] error sending hit', e); }
 
 
   // 2) Read total via JSONP
