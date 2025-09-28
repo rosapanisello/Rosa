@@ -184,20 +184,27 @@
 <div class="cv-counter-badge" id="cvCounter" aria-live="polite" title="Visites totals">Visites: —</div>
 <script>
 (function(){
-  // 1) Log hit via GET pixel (no CORS issues)
+  
+  // Session (tab) gating: count once per browser tab until it's closed
   try {
-    var p = new URLSearchParams();
-    p.append('hit','1');
-    p.append('path', location.pathname + location.search);
-    p.append('referrer', document.referrer || '');
-    var u = new URLSearchParams(location.search);
-    ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(function(k){
-      var v = u.get(k); if(v) p.append(k, v);
-    });
-    var img = new Image(1,1);
-    img.referrerPolicy = 'no-referrer-when-downgrade';
-    img.src = 'https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec' + '?' + p.toString();
+    var KEY = 'cv_session_hit';
+    var hasHit = sessionStorage.getItem(KEY) === '1';
+    if (!hasHit) {
+      sessionStorage.setItem(KEY, '1');
+      var p = new URLSearchParams();
+      p.append('hit','1');
+      p.append('path', location.pathname + location.search);
+      p.append('referrer', document.referrer || '');
+      var u = new URLSearchParams(location.search);
+      ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(function(k){
+        var v = u.get(k); if(v) p.append(k, v);
+      });
+      var img = new Image(1,1);
+      img.referrerPolicy = 'no-referrer-when-downgrade';
+      img.src = ENDPOINT + '?' + p.toString() + '&ts=' + Date.now();
+    }
   } catch(e) { /* ignore */ }
+
 
   // 2) Read total via JSONP
   window.CV_COUNTER_CB = function(data){
@@ -207,7 +214,7 @@
     }catch(_e){}
   };
   var s = document.createElement('script');
-  s.src = 'https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec?summary=1&callback=CV_COUNTER_CB';
+  s.src = 'https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec?summary=1&callback=CV_COUNTER_CB&ts=' + Date.now();
   document.head.appendChild(s);
 })();
 </script>
