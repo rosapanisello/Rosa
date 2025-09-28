@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Prueba contador</title>
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;margin:0;padding:24px;background:#f6f7fb;color:#1b1b1f}
+.card{max-width:600px;margin:0 auto;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px}
+h1{font-size:18px;margin:0 0 8px}
+.btn{display:inline-block;padding:8px 12px;border:1px solid #e5e7eb;border-radius:8px;background:#fff;cursor:pointer}
+.kpi{font-size:32px;font-weight:800;margin:8px 0}
+code{background:#f3f4f6;padding:2px 6px;border-radius:6px}
+.small{color:#6b7280;font-size:12px}
+</style>
+</head>
+<body>
+  <div class="card">
+    <h1>Prueba del contador</h1>
+    <div>Endpoint: <code>https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec</code></div>
+    <div class="kpi" id="total">—</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap">
+      <button class="btn" id="hit">Enviar visita (+1)</button>
+      <button class="btn" id="refresh">Refrescar total</button>
+    </div>
+    <p class="small">Si no sube, recarga fuerte (Ctrl/Cmd+Shift+R) o prueba en incógnito.</p>
+  </div>
+<script>
+const ENDPOINT = "https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec";
+
+function getTotal() {
+  return new Promise((resolve)=>{
+    const cb = "CB" + Math.random().toString().slice(2);
+    window[cb] = function(data) {
+      resolve(data && data.total);
+      try { delete window[cb]; } catch(_e){}
+    };
+    const s = document.createElement('script');
+    s.src = ENDPOINT + '?summary=1&callback=' + cb + '&ts=' + Date.now();
+    document.head.appendChild(s);
+  });
+}
+
+function sendHit() {
+  return new Promise((resolve)=>{
+    const p = new URLSearchParams();
+    p.append('hit','1');
+    p.append('path', location.pathname + location.search);
+    p.append('referrer', document.referrer || '');
+    const img = new Image(1,1);
+    img.onload = img.onerror = ()=> resolve();
+    img.src = ENDPOINT + '?' + p.toString() + '&ts=' + Date.now();
+  });
+}
+
+async function refresh() {
+  document.getElementById('total').textContent = '…';
+  const t = await getTotal();
+  document.getElementById('total').textContent = (t!=null)? t.toLocaleString() : 'N/D';
+}
+
+document.getElementById('hit').addEventListener('click', async ()=>{
+  await sendHit();
+  await refresh();
+});
+document.getElementById('refresh').addEventListener('click', refresh);
+
+(async ()=>{ await refresh(); })();
+</script>
+</body>
+</html>

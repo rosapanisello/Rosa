@@ -21,109 +21,31 @@
 <body>
   <header>
     <h1>Estadísticas del sitio</h1>
-    <p class="muted">Self-hosted con Apps Script • Base inicial: <strong>150</strong> visitas</p>
+    <p class="muted">Self‑hosted con Apps Script • Base inicial 150</p>
   </header>
   <main>
     <div class="card">
       <div class="muted">Visitas totales</div>
       <div id="total" class="kpi">—</div>
       <button id="refresh">Actualizar</button>
-      <p class="muted">Este total suma una base de 150 a los hits registrados.</p>
-    </div>
-    <div class="card">
-      <h3>Google Sheet</h3>
-      <p class="muted">Los detalles (página, referrer, UTM…) se guardan en tu hoja de cálculo de Google. Abre la hoja desde tu proyecto de Apps Script.</p>
-      <p class="muted">Endpoint actual: <code id="ep">https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec</code></p>
+      <p class="muted">Endpoint: <code>https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec</code></p>
     </div>
   </main>
   <script>
-    const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec'.replace(/\/$/, '') + '';
-    const totalEl = document.getElementById('total');
-    const epEl = document.getElementById('ep');
-    epEl.textContent = ENDPOINT;
-
+    const ENDPOINT = "https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec";
     async function loadTotal() {
-      totalEl.textContent = '—';
-      try {
-        const r = await fetch(ENDPOINT);
-        const j = await r.json();
-        totalEl.textContent = (j && typeof j.total !== 'undefined') ? j.total : 'N/D';
-      } catch (e) {
-        totalEl.textContent = 'Error';
-      }
+      document.getElementById('total').textContent = '…';
+      const cb = "CB" + Math.random().toString().slice(2);
+      window[cb] = function(data){
+        document.getElementById('total').textContent = (data && data.total!=null) ? data.total.toLocaleString() : 'N/D';
+        try { delete window[cb]; } catch(_e){}
+      };
+      const s = document.createElement('script');
+      s.src = ENDPOINT + '?summary=1&callback=' + cb + '&ts=' + Date.now();
+      document.head.appendChild(s);
     }
     document.getElementById('refresh').addEventListener('click', loadTotal);
     loadTotal();
   </script>
-
-
-<!-- visible-visit-counter (JSONP) start -->
-<style>
-  .cv-counter-badge{
-    position:fixed; right:16px; bottom:16px; z-index:9999;
-    background:rgba(255,255,255,.92); backdrop-filter:saturate(180%) blur(8px);
-    border:1px solid rgba(0,0,0,.08); border-radius:999px; padding:6px 12px;
-    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
-    font-size:12px; color:#374151; box-shadow:0 2px 10px rgba(0,0,0,.08);
-  }
-  @media (max-width: 640px){ .cv-counter-badge{ font-size:11px; right:12px; bottom:12px; } }
-</style>
-<div class="cv-counter-badge" id="cvCounter" aria-live="polite" title="Visites totals">Visites: —</div>
-<script>
-(function(){
-  // Define endpoint locally
-  var ENDPOINT = "https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec";
-  // 10-minute throttle; ?force=1 overrides
-  try {
-    var KEY = 'cv_last_hit_ts';
-    var now = Date.now();
-    var last = parseInt(localStorage.getItem(KEY) || '0', 10);
-    var TEN_MIN = 10 * 60 * 1000;
-    var qs = location.search ? location.search.substring(1) : '';
-    var params = new URLSearchParams(qs);
-    var force = (params.has('force') && params.get('force') !== '0');
-    var shouldSend = force || (!last || (now - last) > TEN_MIN);
-
-    if (shouldSend) {
-      if (force) console.log('[cv] forcing hit (ignore 10min throttle)');
-      localStorage.setItem(KEY, String(now));
-      var p = new URLSearchParams();
-      p.append('hit','1');
-      p.append('path', location.pathname + location.search);
-      p.append('referrer', document.referrer || '');
-      var utms = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
-      for (var i=0;i<utms.length;i++) {
-        var k = utms[i];
-        var v = params.get(k);
-        if (v) p.append(k, v);
-      }
-      var img = new Image(1,1);
-      img.referrerPolicy = 'no-referrer-when-downgrade';
-      var url = ENDPOINT + '?' + p.toString() + '&ts=' + Date.now();
-      console.log('[cv] sending hit:', url);
-      img.src = url;
-    } else {
-      console.log('[cv] throttled (10min window). Last:', last, 'Now:', now);
-    }
-  } catch(e) { console.warn('[cv] error sending hit', e); }
-
-  // Read total via JSONP with cache-buster
-  try {
-    var cb = 'CV_CB_' + Math.random().toString().slice(2);
-    window[cb] = function(data){
-      try {
-        var t = (data && typeof data.total !== 'undefined') ? data.total : null;
-        if (t !== null) document.getElementById('cvCounter').textContent = 'Visites: ' + (t.toLocaleString ? t.toLocaleString() : t);
-      } catch(_e){}
-      try { delete window[cb]; } catch(_d){}
-    };
-    var s = document.createElement('script');
-    s.src = ENDPOINT + '?summary=1&callback=' + cb + '&ts=' + Date.now();
-    document.head.appendChild(s);
-  } catch(e) { console.warn('[cv] error loading total', e); }
-})();
-</script>
-<!-- visible-visit-counter (JSONP) end -->
-
 </body>
 </html>
