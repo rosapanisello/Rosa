@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="ca">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>404 · Rosa Panisello</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#ffffff">
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="icon" href="/favicon.ico">
+  <style>
+    :root{
+      --bg:#ffffff;
+      --card:#ffffff;
+      --fg:#1b1b1b;
+      --muted:#5f6368;
+      --border:#eaeaea;
+      --accent:#cc6e8b; /* suau, estil rosa */
+      --accent-2:#f7e6ec;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Ubuntu, Cantarell, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+      color:var(--fg);
+      background:
+        radial-gradient(900px 600px at 85% -10%, #faf4f6 0, #fff 60%),
+        radial-gradient(900px 600px at 0% 110%, #f6fbff 0, #fff 60%);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+    }
+    main{
+      width:min(860px,100%);
+      background:var(--card);
+      border:1px solid var(--border);
+      border-radius:18px;
+      padding:36px 28px;
+      box-shadow:0 20px 60px rgba(0,0,0,.06);
+      text-align:center;
+    }
+    .brand{
+      display:inline-flex;
+      gap:12px;
+      align-items:center;
+      margin-bottom:8px;
+      user-select:none;
+    }
+    .brand svg{width:30px;height:30px}
+    .brand strong{letter-spacing:.3px}
+    h1{
+      font-size:clamp(28px,5vw,40px);
+      margin:10px 0 12px;
+      line-height:1.15;
+    }
+    p.lead{
+      color:var(--muted);
+      margin:0 auto 22px;
+      max-width:60ch;
+      line-height:1.6;
+    }
+    .actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:14px}
+    a.button{
+      display:inline-block;
+      padding:12px 18px;
+      border-radius:12px;
+      text-decoration:none;
+      font-weight:600;
+      border:1px solid var(--border);
+      transition:transform .08s ease, box-shadow .2s ease, border-color .2s ease, background .2s ease;
+      background:#fff;
+      color:var(--fg);
+    }
+    a.button.primary{
+      background:linear-gradient(#fff, var(--accent-2));
+      border-color:#f2c6d3;
+      color:var(--fg);
+    }
+    a.button:hover{transform:translateY(-1px);box-shadow:0 10px 24px rgba(0,0,0,.08);border-color:#e2e2e2}
+    a.button.primary:hover{border-color:#eab0c3}
+    .lang{font-size:14px;color:#6b6f74;margin-top:14px}
+    .poem{
+      margin-top:26px;
+      color:#4d4f52;
+      font-style:italic;
+    }
+    footer{margin-top:26px;font-size:12.5px;color:#7a7d80}
+    .illus{
+      width:88px;height:88px;
+      display:inline-block;
+      margin:4px auto 8px;
+    }
+  </style>
+</head>
+<body>
+  <main role="main" aria-label="404">
+    <div class="brand" aria-hidden="true">
+      <!-- petit símbol floral -->
+      <svg class="illus" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0" stop-color="#f7d9e3"/>
+            <stop offset="1" stop-color="#e7b2c6"/>
+          </linearGradient>
+        </defs>
+        <circle cx="32" cy="32" r="30" stroke="#f0d7e0" fill="url(#g1)"/>
+        <path d="M32 18c2.8-5 10-5 12 0 5-2 9 4 6.5 8.5 4.5 2.5 3 10-2.5 11-1 5.5-8.5 7.5-12 3.5-4 4-11 2-12-3.5-5.5-1-7-8.5-2.5-11C18 22 22 16 27 18c2-5 9.2-5 12 0z" fill="#ffffff66"/>
+        <circle cx="32" cy="32" r="5" fill="#cc6e8b"/>
+      </svg>
+      <strong>Rosa Panisello</strong>
+    </div>
+
+    <h1>Ups! Aquesta pàgina no existeix</h1>
+    <p class="lead">
+      Potser s’ha mogut, s’ha esborrat o l’enllaç està mal escrit. Pots tornar a l’inici o anar a una de les seccions més visitades.
+    </p>
+
+    <div class="actions">
+      <a class="button primary" href="/">← Tornar a l’inici</a>
+      <a class="button" href="/inscripcio.html">Inscripció</a>
+      <a class="button" href="/contacte.html">Contacte</a>
+    </div>
+
+    <div class="lang" aria-label="Traducción">
+      <strong>ES</strong> · Esta página no existe. Vuelve al inicio o visita <a href="/contacte.html">Contacto</a>.
+    </div>
+
+    <div class="poem">“A vegades les paraules també es perden. Però sempre hi ha un camí de tornada.” ✨</div>
+
+    <footer>
+      Seràs redirigit a l’inici en uns segons.
+    </footer>
+  </main>
+
+  <script>
+    // Redirecció suau a la portada (7s). Si no la vols, elimina aquest bloc.
+    setTimeout(function(){ window.location.href = "/"; }, 7000);
+  </script>
+</body>
+</html>
