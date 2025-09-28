@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Estadísticas</title>
+  <style>
+    :root{--fg:#1b1b1f;--muted:#6b7280;--line:#e5e7eb;--bg:#f6f7fb;--card:#fff;}
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
+    header{padding:24px;border-bottom:1px solid var(--line);background:#fff;position:sticky;top:0;z-index:10}
+    h1{margin:0;font-size:20px}
+    main{max-width:880px;margin:0 auto;padding:24px}
+    .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px;margin-bottom:16px}
+    .kpi{font-size:36px;font-weight:800;margin:.25rem 0}
+    .muted{color:var(--muted)}
+    button{padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:#fff;cursor:pointer}
+    code{background:#f3f4f6;padding:2px 6px;border-radius:6px}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Estadísticas del sitio</h1>
+    <p class="muted">Self-hosted con Apps Script • Base inicial: <strong>150</strong> visitas</p>
+  </header>
+  <main>
+    <div class="card">
+      <div class="muted">Visitas totales</div>
+      <div id="total" class="kpi">—</div>
+      <button id="refresh">Actualizar</button>
+      <p class="muted">Este total suma una base de 150 a los hits registrados.</p>
+    </div>
+    <div class="card">
+      <h3>Google Sheet</h3>
+      <p class="muted">Los detalles (página, referrer, UTM…) se guardan en tu hoja de cálculo de Google. Abre la hoja desde tu proyecto de Apps Script.</p>
+      <p class="muted">Endpoint actual: <code id="ep">https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec</code></p>
+    </div>
+  </main>
+  <script>
+    const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec'.replace(/\/$/, '') + '';
+    const totalEl = document.getElementById('total');
+    const epEl = document.getElementById('ep');
+    epEl.textContent = ENDPOINT;
+
+    async function loadTotal() {
+      totalEl.textContent = '—';
+      try {
+        const r = await fetch(ENDPOINT);
+        const j = await r.json();
+        totalEl.textContent = (j && typeof j.total !== 'undefined') ? j.total : 'N/D';
+      } catch (e) {
+        totalEl.textContent = 'Error';
+      }
+    }
+    document.getElementById('refresh').addEventListener('click', loadTotal);
+    loadTotal();
+  </script>
+<!-- visible-visit-counter start -->
+<style>
+  .cv-counter-badge{
+    position:fixed; right:16px; bottom:16px; z-index:9999;
+    background:rgba(255,255,255,.92); backdrop-filter:saturate(180%) blur(8px);
+    border:1px solid rgba(0,0,0,.08); border-radius:999px; padding:6px 12px;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    font-size:12px; color:#374151; box-shadow:0 2px 10px rgba(0,0,0,.08);
+  }
+  @media (max-width: 640px){ .cv-counter-badge{ font-size:11px; right:12px; bottom:12px; } }
+</style>
+<div class="cv-counter-badge" id="cvCounter" aria-live="polite" title="Visites totals">Visites: —</div>
+<script>
+(function(){
+  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec'.replace(/\/$/, '');
+  async function load(){
+    try{
+      const r = await fetch(ENDPOINT);
+      const j = await r.json();
+      const total = (j && typeof j.total !== 'undefined') ? j.total : null;
+      if(total!==null){
+        document.getElementById('cvCounter').textContent = 'Visites: ' + total.toLocaleString();
+      }
+    }catch(e){
+      // keep placeholder
+    }
+  }
+  load();
+})();
+</script>
+<!-- visible-visit-counter end -->
+</body>
+</html>

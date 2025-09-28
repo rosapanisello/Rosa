@@ -141,5 +141,59 @@
   enhance('formInscripcio', 'https://rosapanisello.github.io/Rosa/gracies-inscripcio.html');
 })();
 </script>
+<!-- visit-tracker (GAS) start -->
+<script>
+(function(){
+  try{
+    if (window.__vt_sent__) return; window.__vt_sent__=true;
+    var d = new URLSearchParams();
+    d.append('path', location.pathname + location.search);
+    d.append('referrer', document.referrer || '');
+    var p = new URLSearchParams(location.search);
+    ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(function(k){
+      var v=p.get(k); if(v) d.append(k,v);
+    });
+    var ENDPOINT = 'https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec'; // TODO: reemplaza por tu URL de Apps Script que termina en /exec
+    if(navigator.sendBeacon){
+      var b=new Blob([d.toString()],{type:'application/x-www-form-urlencoded'});
+      navigator.sendBeacon(ENDPOINT,b);
+    } else {
+      fetch(ENDPOINT,{method:'POST',body:d,keepalive:true,headers:{'Content-Type':'application/x-www-form-urlencoded'}});
+    }
+  }catch(_{}){}
+})();
+</script>
+<!-- visit-tracker (GAS) end -->
+<!-- visible-visit-counter start -->
+<style>
+  .cv-counter-badge{
+    position:fixed; right:16px; bottom:16px; z-index:9999;
+    background:rgba(255,255,255,.92); backdrop-filter:saturate(180%) blur(8px);
+    border:1px solid rgba(0,0,0,.08); border-radius:999px; padding:6px 12px;
+    font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+    font-size:12px; color:#374151; box-shadow:0 2px 10px rgba(0,0,0,.08);
+  }
+  @media (max-width: 640px){ .cv-counter-badge{ font-size:11px; right:12px; bottom:12px; } }
+</style>
+<div class="cv-counter-badge" id="cvCounter" aria-live="polite" title="Visites totals">Visites: —</div>
+<script>
+(function(){
+  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec'.replace(/\/$/, '');
+  async function load(){
+    try{
+      const r = await fetch(ENDPOINT);
+      const j = await r.json();
+      const total = (j && typeof j.total !== 'undefined') ? j.total : null;
+      if(total!==null){
+        document.getElementById('cvCounter').textContent = 'Visites: ' + total.toLocaleString();
+      }
+    }catch(e){
+      // keep placeholder
+    }
+  }
+  load();
+})();
+</script>
+<!-- visible-visit-counter end -->
 </body>
 </html>
