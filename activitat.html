@@ -134,28 +134,32 @@
 <div class="cv-counter-badge" id="cvCounter" aria-live="polite" title="Visites totals">Visites: —</div>
 <script>
 (function(){
-  
-  
-  // Count at most once per 10 minutes per browser. Allow ?force=1 to override.
+  // Define endpoint locally
+  var ENDPOINT = "https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec";
+  // 10-minute throttle; ?force=1 overrides
   try {
     var KEY = 'cv_last_hit_ts';
     var now = Date.now();
     var last = parseInt(localStorage.getItem(KEY) || '0', 10);
     var TEN_MIN = 10 * 60 * 1000;
-    var params = new URLSearchParams(location.search);
-    var force = params.has('force') && params.get('force') !== '0';
+    var qs = location.search ? location.search.substring(1) : '';
+    var params = new URLSearchParams(qs);
+    var force = (params.has('force') && params.get('force') !== '0');
     var shouldSend = force || (!last || (now - last) > TEN_MIN);
 
     if (shouldSend) {
-      if (force) { console.log('[cv] forcing hit (ignore 10min throttle)'); }
+      if (force) console.log('[cv] forcing hit (ignore 10min throttle)');
       localStorage.setItem(KEY, String(now));
       var p = new URLSearchParams();
       p.append('hit','1');
       p.append('path', location.pathname + location.search);
       p.append('referrer', document.referrer || '');
-      ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'].forEach(function(k){
-        var v = params.get(k); if(v) p.append(k, v);
-      });
+      var utms = ['utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
+      for (var i=0;i<utms.length;i++) {
+        var k = utms[i];
+        var v = params.get(k);
+        if (v) p.append(k, v);
+      }
       var img = new Image(1,1);
       img.referrerPolicy = 'no-referrer-when-downgrade';
       var url = ENDPOINT + '?' + p.toString() + '&ts=' + Date.now();
@@ -166,19 +170,23 @@
     }
   } catch(e) { console.warn('[cv] error sending hit', e); }
 
-
-  // 2) Read total via JSONP
-  window.CV_COUNTER_CB = function(data){
-    try{ 
-      var t = (data && typeof data.total !== 'undefined') ? data.total : null;
-      if(t !== null) document.getElementById('cvCounter').textContent = 'Visites: ' + t.toLocaleString();
-    }catch(_e){}
-  };
-  var s = document.createElement('script');
-  s.src = 'https://script.google.com/macros/s/AKfycbzgXPKGWT-osxq4XHcKCjwKgyRG4dgSWu2kuGJTdAcu8N_aU07-FIJJay9bdN40eSQ/exec?summary=1&callback=CV_COUNTER_CB&ts=' + Date.now();
-  document.head.appendChild(s);
+  // Read total via JSONP with cache-buster
+  try {
+    var cb = 'CV_CB_' + Math.random().toString().slice(2);
+    window[cb] = function(data){
+      try {
+        var t = (data && typeof data.total !== 'undefined') ? data.total : null;
+        if (t !== null) document.getElementById('cvCounter').textContent = 'Visites: ' + (t.toLocaleString ? t.toLocaleString() : t);
+      } catch(_e){}
+      try { delete window[cb]; } catch(_d){}
+    };
+    var s = document.createElement('script');
+    s.src = ENDPOINT + '?summary=1&callback=' + cb + '&ts=' + Date.now();
+    document.head.appendChild(s);
+  } catch(e) { console.warn('[cv] error loading total', e); }
 })();
 </script>
 <!-- visible-visit-counter (JSONP) end -->
+
 </body>
 </html>
